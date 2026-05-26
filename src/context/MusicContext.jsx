@@ -29,11 +29,11 @@ const PLAYLIST = [
   },
   {
     id: 4,
-    title: "Can't Help Falling in Love",
-    artist: "Elvis Presley",
+    title: "Your Universe",
+    artist: "Rico Blanco (Acoustic)",
     duration: "3:01",
     color: "#ffe0e9",
-    src: null,
+    src: "/src/assets/music/your-universe-acoustic.mp3",
   },
 ];
 
