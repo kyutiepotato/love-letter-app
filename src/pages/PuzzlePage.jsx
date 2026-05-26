@@ -2,6 +2,29 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageLayout from '../components/PageLayout';
 
+const ICONS = {
+  couple: (size = 56) => (
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+      {/* Left person */}
+      <circle cx="16" cy="13" r="5" fill="rgba(255,183,197,0.2)" stroke="#ffb7c5" strokeWidth="1.5"/>
+      <path d="M8 32c0-6 3.5-9 8-9s8 3 8 9" stroke="#ffb7c5" strokeWidth="1.5" strokeLinecap="round"/>
+      {/* Right person */}
+      <circle cx="32" cy="13" r="5" fill="rgba(255,107,153,0.2)" stroke="#ff6b99" strokeWidth="1.5"/>
+      <path d="M24 32c0-6 3.5-9 8-9s8 3 8 9" stroke="#ff6b99" strokeWidth="1.5" strokeLinecap="round"/>
+      {/* Heart in the middle */}
+      <path d="M24 22s-4-3.5-4-6a4 4 0 0 1 4-3 4 4 0 0 1 4 3c0 2.5-4 6-4 6z"
+        fill="rgba(255,107,153,0.35)" stroke="#ff6b99" strokeWidth="1.3" strokeLinejoin="round"/>
+      {/* Sparkles */}
+      <path d="M10 8l.5 1.5L12 10l-1.5.5L10 12l-.5-1.5L8 10l1.5-.5z"
+        fill="#ffb7c5" opacity="0.7"/>
+      <path d="M38 8l.4 1.2 1.2.4-1.2.4-.4 1.2-.4-1.2-1.2-.4 1.2-.4z"
+        fill="#ff6b99" opacity="0.7"/>
+      <path d="M24 4l.3.9.9.3-.9.3-.3.9-.3-.9-.9-.3.9-.3z"
+        fill="#ffd0dd" opacity="0.8"/>
+    </svg>
+  ),
+};
+
 // ── SET YOUR PUZZLE PHOTO HERE ──────────────────────────────────────────────
 const PUZZLE_IMAGE = '/src/assets/photo2.jpg'; // ← change to your image path
 // ────────────────────────────────────────────────────────────────────────────
@@ -240,11 +263,11 @@ export default function PuzzlePage() {
               />
             ))}
             <motion.div
-              className="text-6xl"
+              className="flex items-center justify-center"
               animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
               transition={{ duration: 1, repeat: 2 }}
             >
-              💑
+              {ICONS.couple(64)}
             </motion.div>
             <h2 className="text-3xl font-serif italic text-white">We're Complete!</h2>
             <p className="text-white/70 text-lg max-w-xs italic" style={{ fontFamily: '"Cormorant Garamond", serif' }}>

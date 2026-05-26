@@ -13,11 +13,11 @@ const PLAYLIST = [
   },
   {
     id: 2,
-    title: "All of Me",
-    artist: "John Legend",
+    title: "Nahanap Kita",
+    artist: "Amiel Sol",
     duration: "4:29",
     color: "#fda4af",
-    src: null, // add src path when you have the file
+    src: "/src/assets/music/Nahanap Kita - Amiel Sol (Official Music Video).mp3", // add src path when you have the file
   },
   {
     id: 3,
