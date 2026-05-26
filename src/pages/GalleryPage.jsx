@@ -9,15 +9,16 @@ import PageLayout from '../components/PageLayout';
 // ─────────────────────────────────────────────────────────────────────────────
 
 const MEMORIES = [
-  { id: 1, title: "First Date",        date: "Feb 14, 2025", caption: "The night everything changed",    emoji: "🌹", color: "#ff6b99", hue: 340, image: '/src/assets/gallery/photo1.jpg'  },
+  { id: 1, title: "Special Moment",        date: "Feb 14, 2025", caption: "The night everything changed",    emoji: "🌹", color: "#ff6b99", hue: 340, image: '/src/assets/gallery/photo1.jpg'  },
   { id: 2, title: "Beach Sunset",      date: "Apr 3, 2025",  caption: "Salt air and your laughter",      emoji: "🌅", color: "#f97316", hue: 20,  image: '/src/assets/gallery/photo3.jpg' },
-  { id: 3, title: "Morning Coffee",    date: "May 20, 2025", caption: "Our lazy Sunday ritual",           emoji: "☕", color: "#fbbf24", hue: 45,  image: '/src/assets/gallery/photo4.jpg' },
-  { id: 4, title: "Stargazing",        date: "Jul 4, 2025",  caption: "You named a star after us",        emoji: "⭐", color: "#818cf8", hue: 240, image: '/src/assets/gallery/stargazing.jpg' },
-  { id: 5, title: "Rain Dance",        date: "Aug 15, 2025", caption: "We got soaked and didn't care",    emoji: "🌧️", color: "#60a5fa", hue: 210, image: '/src/assets/gallery/rain-dance.jpg' },
-  { id: 6, title: "First Anniversary", date: "Feb 14, 2025", caption: "A whole year of loving you",       emoji: "💕", color: "#f43f5e", hue: 350, image: '/src/assets/gallery/first-anniversary.jpg' },
-  { id: 7, title: "Road Trip",         date: "Jun 10, 2025", caption: "Just us and the open road",        emoji: "🚗", color: "#34d399", hue: 160, image: '/src/assets/gallery/road-trip.jpg' },
-  { id: 8, title: "Winter Walk",       date: "Dec 25, 2025", caption: "Your hand warm in the cold",       emoji: "❄️", color: "#93c5fd", hue: 210, image: '/src/assets/gallery/winter-walk.jpg' },
-  { id: 9, title: "Home",              date: "Mar 1, 2026",  caption: "Wherever you are is home",         emoji: "🏠", color: "#fda4af", hue: 350, image: '/src/assets/gallery/home.jpg' },
+  { id: 3, title: "Eat All you Can",    date: "May 20, 2025", caption: "Our lazy Sunday ritual",           emoji: "☕", color: "#fbbf24", hue: 45,  image: '/src/assets/gallery/photo4.jpg' },
+  { id: 4, title: "New Year's Date",        date: "Jul 4, 2025",  caption: "You named a star after us",        emoji: "⭐", color: "#818cf8", hue: 240, image: '/src/assets/gallery/photo5.jpg' },
+  { id: 5, title: "Birthday Celebration",        date: "Aug 15, 2025", caption: "We got soaked and didn't care",    emoji: "🌧️", color: "#60a5fa", hue: 210, image: '/src/assets/gallery/photo6.jpg' },
+  { id: 6, title: "Fun Moments", date: "Feb 14, 2025", caption: "A whole year of loving you",       emoji: "💕", color: "#f43f5e", hue: 350, image: '/src/assets/gallery/photo7.jpg' },
+  { id: 7, title: "Road Trip",         date: "Jun 10, 2025", caption: "Just us and the open road",        emoji: "🚗", color: "#34d399", hue: 160, image: '/src/assets/gallery/photo9.jpg' },
+  { id: 8, title: "Rain Date",       date: "Dec 25, 2025", caption: "Your hand warm in the cold",       emoji: "❄️", color: "#93c5fd", hue: 210, image: '/src/assets/gallery/photo8.jpg' },
+  { id: 9, title: "Home",              date: "Mar 1, 2026",  caption: "Wherever you are is home",         emoji: "🏠", color: "#fda4af", hue: 350, image: '/src/assets/gallery/photo10.jpg' },
+  { id: 10, title: "Hubbies",             date: "Mar 1, 2026",  caption: "Wherever you are is home",         emoji: "🏠", color: "#fda4af", hue: 350, image: '/src/assets/gallery/photo11.jpg' },
 ];
 
 // Reusable photo area used in both the card thumbnail and the lightbox
