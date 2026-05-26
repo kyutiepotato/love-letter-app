@@ -2,11 +2,95 @@ import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageLayout from '../components/PageLayout';
 
+const ICONS = {
+  mic: (color = '#fb7185', size = 18) => (
+    <svg width={size} height={size} viewBox="0 0 22 22" fill="none">
+      <rect x="8" y="2" width="6" height="10" rx="3" stroke={color} strokeWidth="1.5"/>
+      <path d="M5 11a6 6 0 0 0 12 0" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M11 17v3M8 20h6" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M10 5.5h2M10 7.5h2M10 9.5h2" stroke={color} strokeWidth="1" strokeLinecap="round" opacity="0.5"/>
+    </svg>
+  ),
+  check: (color = '#34d399', size = 18) => (
+    <svg width={size} height={size} viewBox="0 0 22 22" fill="none">
+      <path d="M11 2C6.03 2 2 6.03 2 11s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z"
+        stroke={color} strokeWidth="1.5" fill={`${color}22`}/>
+      <path d="M7 11l3 3 5-5" stroke={color} strokeWidth="1.8"
+        strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  ),
+  wrong: (color = '#ef4444', size = 18) => (
+    <svg width={size} height={size} viewBox="0 0 22 22" fill="none">
+      <path d="M11 2C6.03 2 2 6.03 2 11s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z"
+        stroke={color} strokeWidth="1.5" fill={`${color}22`}/>
+      <path d="M8 8l6 6M14 8l-6 6" stroke={color} strokeWidth="1.8"
+        strokeLinecap="round"/>
+    </svg>
+  ),
+  heart: (color = '#ff6b99', size = 28) => (
+    <svg width={size} height={size} viewBox="0 0 22 22" fill="none">
+      <path d="M11 18S3 13 3 7.5A4.5 4.5 0 0 1 11 5.5 4.5 4.5 0 0 1 19 7.5C19 13 11 18 11 18z"
+        fill={`${color}33`} stroke={color} strokeWidth="1.5"
+        strokeLinejoin="round"/>
+      <path d="M8 8.5c-.5 1 0 2.5 1.5 3.5" stroke={color} strokeWidth="1"
+        strokeLinecap="round" opacity="0.5"/>
+    </svg>
+  ),
+  reward: {
+    1: (size = 48) => (
+      <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+        <path d="M24 40S8 30 8 18a10 10 0 0 1 16-8 10 10 0 0 1 16 8c0 12-16 22-16 22z"
+          fill="rgba(255,107,153,0.25)" stroke="#ff6b99" strokeWidth="1.8" strokeLinejoin="round"/>
+        <path d="M18 20c-1 2 0 5 3 7" stroke="#ff6b99" strokeWidth="1.4"
+          strokeLinecap="round" opacity="0.6"/>
+      </svg>
+    ),
+    2: (size = 48) => (
+      <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="16" stroke="#818cf8" strokeWidth="1.8"
+          fill="rgba(129,140,248,0.1)"/>
+        <path d="M16 24l6 6 10-12" stroke="#818cf8" strokeWidth="2"
+          strokeLinecap="round" strokeLinejoin="round"/>
+        <circle cx="24" cy="24" r="20" stroke="#818cf8" strokeWidth="1"
+          strokeDasharray="3 4" opacity="0.3"/>
+      </svg>
+    ),
+    3: (size = 48) => (
+      <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="10" fill="rgba(251,191,36,0.2)"
+          stroke="#fbbf24" strokeWidth="1.8"/>
+        {[0,45,90,135,180,225,270,315].map((deg, i) => (
+          <line key={i}
+            x1={24 + 12 * Math.cos(deg * Math.PI / 180)}
+            y1={24 + 12 * Math.sin(deg * Math.PI / 180)}
+            x2={24 + 18 * Math.cos(deg * Math.PI / 180)}
+            y2={24 + 18 * Math.sin(deg * Math.PI / 180)}
+            stroke="#fbbf24" strokeWidth={i % 2 === 0 ? 1.8 : 1.2}
+            strokeLinecap="round" opacity={i % 2 === 0 ? 1 : 0.5}/>
+        ))}
+      </svg>
+    ),
+    4: (size = 48) => (
+      <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+        <path d="M24 36S10 27 10 19a8 8 0 0 1 14-5.2A8 8 0 0 1 38 19c0 8-14 17-14 17z"
+          fill="rgba(52,211,153,0.2)" stroke="#34d399" strokeWidth="1.8"
+          strokeLinejoin="round"/>
+        <path d="M19 21c-.8 1.5 0 4 2.5 5.5" stroke="#34d399"
+          strokeWidth="1.3" strokeLinecap="round" opacity="0.6"/>
+        <circle cx="33" cy="14" r="3" fill="rgba(52,211,153,0.3)"
+          stroke="#34d399" strokeWidth="1.2"/>
+        <circle cx="15" cy="12" r="2" fill="rgba(52,211,153,0.2)"
+          stroke="#34d399" strokeWidth="1"/>
+      </svg>
+    ),
+  },
+};
+
 const CHALLENGES = [
   {
     id: 1,
     question: "What is our anniversary date?",
-    answer: "february 14",
+    answer: "January 12",
     hint: "The day everything changed 💕",
     reward: "🌹",
     rewardMessage: "You remembered! That day, I fell for you completely.",
@@ -187,9 +271,9 @@ function FlipCard({ challenge, index }) {
                       transition={{ duration: 0.8, repeat: Infinity }}
                     />
                   )}
-                  {status === 'idle' && '🎤'}
-                  {status === 'correct' && '✓'}
-                  {status === 'wrong' && '✗'}
+                  {status === 'idle'    && ICONS.mic(challenge.color)}
+                  {status === 'correct' && ICONS.check('#34d399')}
+                  {status === 'wrong'   && ICONS.wrong('#ef4444')}
                   <span>
                     {status === 'listening' ? 'Listening...'
                       : status === 'correct' ? 'Correct!'
@@ -227,7 +311,7 @@ function FlipCard({ challenge, index }) {
               animate={flipped ? { scale: [0, 1.2, 1], rotate: [0, 10, 0] } : {}}
               transition={{ duration: 0.6 }}
             >
-              {challenge.reward}
+              {ICONS.reward[challenge.id]?.(48)}
             </motion.div>
             <p
               className="text-white/80 text-sm italic"
@@ -261,7 +345,9 @@ export default function VoicePage() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
         >
-          <span className="text-2xl flex-shrink-0">🎤</span>
+          <span className="flex-shrink-0 flex items-center">
+            {ICONS.mic('#fb7185', 24)}
+          </span>
           <div>
             <p className="text-white/70 text-sm font-serif">
               Press the voice button and speak your answer aloud.

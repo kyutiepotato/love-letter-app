@@ -2,6 +2,10 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageLayout from '../components/PageLayout';
 
+// ── SET YOUR PUZZLE PHOTO HERE ──────────────────────────────────────────────
+const PUZZLE_IMAGE = '/src/assets/photo2.jpg'; // ← change to your image path
+// ────────────────────────────────────────────────────────────────────────────
+
 const DIFFICULTIES = [
   { label: 'Easy', grid: 3, pieces: 9 },
   { label: 'Medium', grid: 4, pieces: 16 },
@@ -28,16 +32,24 @@ function generatePuzzle(grid) {
       });
     }
   }
-  // Shuffle
   const shuffled = [...pieces].sort(() => Math.random() - 0.5);
   return shuffled;
 }
 
-function PuzzlePiece({ piece, grid, size, onDragStart, isDragging }) {
-  const bgX = -(piece.col * 100);
-  const bgY = -(piece.row * 100);
+// Returns the background-position that shows the correct slice of the photo
+function getPieceStyle(piece, grid, size) {
   const totalSize = size * grid;
+  const bgX = -(piece.col * size);
+  const bgY = -(piece.row * size);
+  return {
+    backgroundImage: `url(${PUZZLE_IMAGE})`,
+    backgroundSize: `${totalSize}px ${totalSize}px`,
+    backgroundPosition: `${bgX}px ${bgY}px`,
+    backgroundRepeat: 'no-repeat',
+  };
+}
 
+function PuzzlePiece({ piece, grid, size, onDragStart, isDragging }) {
   return (
     <motion.div
       draggable
@@ -47,36 +59,14 @@ function PuzzlePiece({ piece, grid, size, onDragStart, isDragging }) {
         width: size,
         height: size,
         cursor: 'grab',
-        background: `
-          radial-gradient(ellipse 80% 60% at ${30 + piece.col * 15}% ${40 + piece.row * 10}%, 
-            hsl(${340 + piece.id * 3}, 60%, ${25 + piece.id * 2}%) 0%, 
-            hsl(${320 + piece.id * 4}, 40%, 15%) 100%)
-        `,
+        ...getPieceStyle(piece, grid, size),
         border: '1px solid rgba(255,183,197,0.25)',
         boxShadow: isDragging ? '0 20px 40px rgba(0,0,0,0.5)' : '0 4px 12px rgba(0,0,0,0.4)',
         position: 'relative',
-        overflow: 'hidden',
       }}
       whileHover={{ scale: 1.05, zIndex: 10 }}
       whileDrag={{ scale: 1.1, zIndex: 100 }}
-    >
-      {/* Simulated photo content with gradient art */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `
-            radial-gradient(ellipse at ${50 - piece.col * 8}% ${60 - piece.row * 8}%, 
-              rgba(255,140,100,0.3) 0%, transparent 50%),
-            radial-gradient(ellipse at ${70 + piece.col * 5}% ${30 + piece.row * 5}%, 
-              rgba(255,183,197,0.2) 0%, transparent 40%)
-          `,
-        }}
-      />
-      {/* Puzzle notch decoration */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-white/10 text-xs font-mono">{piece.correctPos + 1}</span>
-      </div>
-    </motion.div>
+    />
   );
 }
 
@@ -102,28 +92,20 @@ function DropSlot({ slotIndex, occupant, grid, pieceSize, onDrop, isCorrect }) {
           boxShadow: isCorrect ? '0 0 12px rgba(255,183,197,0.4) inset' : 'none',
         }}
       />
-      {/* Placed piece */}
+
+      {/* Placed piece — shows its photo slice */}
       {occupant && (
         <motion.div
           className="absolute inset-0 rounded-sm"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           style={{
-            background: `radial-gradient(ellipse 80% 60% at ${30 + occupant.col * 15}% ${40 + occupant.row * 10}%, 
-              hsl(${340 + occupant.id * 3}, 60%, ${25 + occupant.id * 2}%) 0%, 
-              hsl(${320 + occupant.id * 4}, 40%, 15%) 100%)`,
+            ...getPieceStyle(occupant, grid, pieceSize),
             border: isCorrect ? '1px solid rgba(255,183,197,0.6)' : '1px solid rgba(255,183,197,0.2)',
             boxShadow: isCorrect ? '0 0 20px rgba(255,183,197,0.4)' : 'none',
             overflow: 'hidden',
           }}
         >
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `radial-gradient(ellipse at ${50 - occupant.col * 8}% ${60 - occupant.row * 8}%, 
-                rgba(255,140,100,0.3) 0%, transparent 50%)`,
-            }}
-          />
           {isCorrect && (
             <motion.div
               className="absolute inset-0 flex items-center justify-center"
@@ -131,7 +113,7 @@ function DropSlot({ slotIndex, occupant, grid, pieceSize, onDrop, isCorrect }) {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ type: 'spring', delay: 0.1 }}
             >
-              <div className="w-4 h-4 rounded-full bg-sakura/40 flex items-center justify-center">
+              <div className="w-4 h-4 rounded-full bg-white/30 flex items-center justify-center">
                 <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
@@ -152,7 +134,7 @@ export default function PuzzlePage() {
   const [completed, setCompleted] = useState(false);
   const [message, setMessage] = useState('');
 
-  const grid = difficulty ? DIFFICULTIES[difficulty].grid : 3;
+  const grid = difficulty !== null ? DIFFICULTIES[difficulty].grid : 3;
   const pieceSize = Math.min(Math.floor(Math.min(300, window.innerWidth - 80) / grid), 90);
 
   const startGame = (diffIdx) => {
@@ -170,14 +152,11 @@ export default function PuzzlePage() {
 
   const handleDrop = (slotIndex) => {
     if (!dragging) return;
-    const g = DIFFICULTIES[difficulty].grid;
 
     setSlots(prev => {
       const next = [...prev];
-      // Remove from previous slot if any
       const prevSlot = next.findIndex(s => s && s.id === dragging.id);
       if (prevSlot !== -1) next[prevSlot] = null;
-      // Swap if slot occupied
       if (next[slotIndex]) {
         if (prevSlot !== -1) next[prevSlot] = next[slotIndex];
         else setPieces(pp => [...pp, next[slotIndex]]);
@@ -189,7 +168,6 @@ export default function PuzzlePage() {
     setPieces(prev => prev.filter(p => p.id !== dragging.id));
     setDragging(null);
 
-    // Check completion after state update
     setTimeout(() => {
       setSlots(current => {
         const allCorrect = current.every((s, i) => s && s.correctPos === i);
@@ -243,7 +221,6 @@ export default function PuzzlePage() {
             animate={{ opacity: 1, scale: 1 }}
             className="flex flex-col items-center gap-6 text-center"
           >
-            {/* Fireworks */}
             {[...Array(12)].map((_, i) => (
               <motion.div
                 key={i}
@@ -269,13 +246,8 @@ export default function PuzzlePage() {
             >
               💑
             </motion.div>
-            <h2 className="text-3xl font-serif italic text-white glow-text">
-              We're Complete!
-            </h2>
-            <p
-              className="text-white/70 text-lg max-w-xs italic"
-              style={{ fontFamily: '"Cormorant Garamond", serif' }}
-            >
+            <h2 className="text-3xl font-serif italic text-white">We're Complete!</h2>
+            <p className="text-white/70 text-lg max-w-xs italic" style={{ fontFamily: '"Cormorant Garamond", serif' }}>
               "{message}"
             </p>
             <div className="flex gap-3 mt-4">
@@ -305,7 +277,7 @@ export default function PuzzlePage() {
             {/* Progress */}
             <div className="w-full max-w-sm">
               <div className="flex justify-between text-xs text-white/40 mb-1" style={{ fontFamily: 'Lato, sans-serif' }}>
-                <span>{slots.filter(s => s && s.correctPos === slots.indexOf(s)).length} / {grid * grid} correct</span>
+                <span>{slots.filter((s, i) => s && s.correctPos === i).length} / {grid * grid} correct</span>
                 <button onClick={() => setDifficulty(null)} className="text-sakura/60 hover:text-sakura">← Back</button>
               </div>
               <div className="h-1 rounded-full" style={{ background: 'rgba(255,183,197,0.15)' }}>
@@ -319,13 +291,8 @@ export default function PuzzlePage() {
             </div>
 
             {/* Puzzle grid */}
-            <div
-              className="glass rounded-2xl p-3 sm:p-4"
-              style={{ border: '1px solid rgba(255,183,197,0.2)' }}
-            >
-              <div
-                style={{ display: 'grid', gridTemplateColumns: `repeat(${grid}, ${pieceSize}px)`, gap: 3 }}
-              >
+            <div className="glass rounded-2xl p-3 sm:p-4" style={{ border: '1px solid rgba(255,183,197,0.2)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: `repeat(${grid}, ${pieceSize}px)`, gap: 3 }}>
                 {slots.map((occupant, i) => (
                   <DropSlot
                     key={i}

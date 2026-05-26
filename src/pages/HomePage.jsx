@@ -2,11 +2,52 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
+const ICONS = {
+  puzzle: (color) => (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <path d="M11 2C6.03 2 2 6.03 2 11s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" stroke={color} strokeWidth="1.5"/>
+      <path d="M8 11a3 3 0 1 0 6 0 3 3 0 0 0-6 0z" fill={`${color}33`} stroke={color} strokeWidth="1.2"/>
+      <path d="M11 8.5V11l1.5 1.5" stroke={color} strokeWidth="1.2" strokeLinecap="round"/>
+    </svg>
+  ),
+  gallery: (color) => (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <rect x="3" y="5" width="16" height="13" rx="2" stroke={color} strokeWidth="1.5"/>
+      <circle cx="8" cy="9.5" r="1.5" fill={`${color}44`} stroke={color} strokeWidth="1.2"/>
+      <path d="M3 14l4-3.5 3.5 3 3-2.5 5.5 4.5" stroke={color} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M15 3l1 2M11 2l.5 2.5M7 3l1 2" stroke={color} strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+    </svg>
+  ),
+  music: (color) => (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <path d="M11 14.5c0 1.93-1.57 3.5-3.5 3.5S4 16.43 4 14.5 5.57 11 7.5 11H11v3.5z" stroke={color} strokeWidth="1.5" strokeLinejoin="round"/>
+      <path d="M11 11V5l7-1.5v5" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M18 8.5c0 1.93-1.57 3.5-3.5 3.5S11 10.43 11 8.5" stroke={color} strokeWidth="1.4" strokeLinecap="round" opacity="0.7"/>
+    </svg>
+  ),
+  notes: (color) => (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <path d="M4 4h14v12l-4 3H4V4z" stroke={color} strokeWidth="1.5" strokeLinejoin="round"/>
+      <path d="M14 16v3l4-3" stroke={color} strokeWidth="1.3" strokeLinejoin="round"/>
+      <path d="M7 8h8M7 11h6M7 14h4" stroke={color} strokeWidth="1.2" strokeLinecap="round" opacity="0.7"/>
+      <path d="M11 6.5c.5-1 2-1 2 0s-1 1.5-2 2.5c-1-1-2-1.5-2-2.5s1.5-1 2 0z" fill={`${color}44`} stroke={color} strokeWidth="1"/>
+    </svg>
+  ),
+  voice: (color) => (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <rect x="8" y="2" width="6" height="10" rx="3" stroke={color} strokeWidth="1.5"/>
+      <path d="M5 11a6 6 0 0 0 12 0" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M11 17v3M8 20h6" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M10 5.5h2M10 7.5h2M10 9.5h2" stroke={color} strokeWidth="1" strokeLinecap="round" opacity="0.5"/>
+    </svg>
+  ),
+};
+
 const MENU_ITEMS = [
   {
     id: 'puzzle',
     path: '/puzzle',
-    icon: '🧩',
+    icon: 'puzzle',        // ← was '🧩'
     title: 'Put Us Together',
     subtitle: 'Piece by piece, heart by heart',
     color: '#ff6b99',
@@ -16,7 +57,7 @@ const MENU_ITEMS = [
   {
     id: 'gallery',
     path: '/gallery',
-    icon: '📸',
+    icon: 'gallery',       // ← was '📸'
     title: 'Our Gallery',
     subtitle: 'Every frame, a forever memory',
     color: '#f9a8c9',
@@ -26,7 +67,7 @@ const MENU_ITEMS = [
   {
     id: 'music',
     path: '/music',
-    icon: '🎵',
+    icon: 'music',         // ← was '🎵'
     title: 'Our Soundtrack',
     subtitle: 'Songs that hold our story',
     color: '#ffb7c5',
@@ -36,7 +77,7 @@ const MENU_ITEMS = [
   {
     id: 'notes',
     path: '/notes',
-    icon: '💌',
+    icon: 'notes',         // ← was '💌'
     title: 'Love Notes',
     subtitle: 'Words I wrote just for you',
     color: '#fda4af',
@@ -46,7 +87,7 @@ const MENU_ITEMS = [
   {
     id: 'voice',
     path: '/voice',
-    icon: '🎤',
+    icon: 'voice',         // ← was '🎤'
     title: 'Voice Challenge',
     subtitle: 'Speak and reveal our secrets',
     color: '#fb7185',
@@ -102,7 +143,7 @@ function MenuCard({ item, onClick }) {
             boxShadow: hovered ? `0 0 20px ${item.glow}` : 'none',
           }}
         >
-          {item.icon}
+          {ICONS[item.icon](item.color)}
         </div>
 
         {/* Text */}

@@ -2,6 +2,18 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageLayout from '../components/PageLayout';
 
+const ICONS = {
+  envelope: (color = '#ff6b99') => (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <rect x="2" y="5" width="18" height="13" rx="2" stroke={color} strokeWidth="1.5" fill={`${color}15`}/>
+      <path d="M2 7l9 6 9-6" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M2 18l6-5M20 18l-6-5" stroke={color} strokeWidth="1.2" strokeLinecap="round" opacity="0.5"/>
+      <path d="M10 9.5c.3-.5 1-.8 1.5-.3s.3 1.2-.5 1.8c-.8-.6-1.3-1.3-.5-1.8.2-.2.7-.1 1 .1" 
+        fill={`${color}44`} stroke={color} strokeWidth="0.8" opacity="0.7"/>
+    </svg>
+  ),
+};
+
 const LETTERS = [
   {
     id: 1,
@@ -154,10 +166,10 @@ function LetterCard({ letter, index }) {
             >
               {/* Envelope icon */}
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0 transition-all duration-300 group-hover:scale-110"
+                className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110"
                 style={{ background: `${letter.color}22`, border: `1px solid ${letter.color}44` }}
               >
-                💌
+                {ICONS.envelope(letter.color)}
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="text-white/85 font-serif text-base">{letter.title}</h3>

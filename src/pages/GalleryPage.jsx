@@ -2,17 +2,93 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageLayout from '../components/PageLayout';
 
+// ── ADD YOUR PHOTOS HERE ─────────────────────────────────────────────────────
+// For each memory, set `image` to the path of your photo inside src/assets/
+// If you leave `image` as null, it will show the emoji instead (safe fallback)
+// Example: image: '/src/assets/gallery/first-date.jpg',
+// ─────────────────────────────────────────────────────────────────────────────
+
 const MEMORIES = [
-  { id: 1, title: "First Date", date: "Feb 14, 2022", caption: "The night everything changed", emoji: "🌹", color: "#ff6b99", hue: 340 },
-  { id: 2, title: "Beach Sunset", date: "Apr 3, 2022", caption: "Salt air and your laughter", emoji: "🌅", color: "#f97316", hue: 20 },
-  { id: 3, title: "Morning Coffee", date: "May 20, 2022", caption: "Our lazy Sunday ritual", emoji: "☕", color: "#fbbf24", hue: 45 },
-  { id: 4, title: "Stargazing", date: "Jul 4, 2022", caption: "You named a star after us", emoji: "⭐", color: "#818cf8", hue: 240 },
-  { id: 5, title: "Rain Dance", date: "Aug 15, 2022", caption: "We got soaked and didn't care", emoji: "🌧️", color: "#60a5fa", hue: 210 },
-  { id: 6, title: "First Anniversary", date: "Feb 14, 2023", caption: "A whole year of loving you", emoji: "💕", color: "#f43f5e", hue: 350 },
-  { id: 7, title: "Road Trip", date: "Jun 10, 2023", caption: "Just us and the open road", emoji: "🚗", color: "#34d399", hue: 160 },
-  { id: 8, title: "Winter Walk", date: "Dec 25, 2023", caption: "Your hand warm in the cold", emoji: "❄️", color: "#93c5fd", hue: 210 },
-  { id: 9, title: "Home", date: "Mar 1, 2024", caption: "Wherever you are is home", emoji: "🏠", color: "#fda4af", hue: 350 },
+  { id: 1, title: "First Date",        date: "Feb 14, 2025", caption: "The night everything changed",    emoji: "🌹", color: "#ff6b99", hue: 340, image: '/src/assets/gallery/photo1.jpg'  },
+  { id: 2, title: "Beach Sunset",      date: "Apr 3, 2025",  caption: "Salt air and your laughter",      emoji: "🌅", color: "#f97316", hue: 20,  image: '/src/assets/gallery/photo3.jpg' },
+  { id: 3, title: "Morning Coffee",    date: "May 20, 2025", caption: "Our lazy Sunday ritual",           emoji: "☕", color: "#fbbf24", hue: 45,  image: '/src/assets/gallery/photo4.jpg' },
+  { id: 4, title: "Stargazing",        date: "Jul 4, 2025",  caption: "You named a star after us",        emoji: "⭐", color: "#818cf8", hue: 240, image: '/src/assets/gallery/stargazing.jpg' },
+  { id: 5, title: "Rain Dance",        date: "Aug 15, 2025", caption: "We got soaked and didn't care",    emoji: "🌧️", color: "#60a5fa", hue: 210, image: '/src/assets/gallery/rain-dance.jpg' },
+  { id: 6, title: "First Anniversary", date: "Feb 14, 2025", caption: "A whole year of loving you",       emoji: "💕", color: "#f43f5e", hue: 350, image: '/src/assets/gallery/first-anniversary.jpg' },
+  { id: 7, title: "Road Trip",         date: "Jun 10, 2025", caption: "Just us and the open road",        emoji: "🚗", color: "#34d399", hue: 160, image: '/src/assets/gallery/road-trip.jpg' },
+  { id: 8, title: "Winter Walk",       date: "Dec 25, 2025", caption: "Your hand warm in the cold",       emoji: "❄️", color: "#93c5fd", hue: 210, image: '/src/assets/gallery/winter-walk.jpg' },
+  { id: 9, title: "Home",              date: "Mar 1, 2026",  caption: "Wherever you are is home",         emoji: "🏠", color: "#fda4af", hue: 350, image: '/src/assets/gallery/home.jpg' },
 ];
+
+// Reusable photo area used in both the card thumbnail and the lightbox
+function PhotoArea({ memory, height, emojiSize = '5xl', children }) {
+  return (
+    <div
+      className="relative overflow-hidden"
+      style={{
+        height,
+        background: memory.image
+          ? undefined
+          : `radial-gradient(ellipse 70% 80% at 40% 50%,
+              hsl(${memory.hue}, 50%, 25%) 0%,
+              hsl(${memory.hue + 20}, 30%, 12%) 60%,
+              hsl(${memory.hue - 20}, 20%, 8%) 100%)`,
+      }}
+    >
+      {memory.image ? (
+        /* ── Real photo ── */
+        <>
+          <img
+            src={memory.image}
+            alt={memory.title}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          {/* Soft dark gradient so caption text stays readable */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.55) 100%)' }}
+          />
+        </>
+      ) : (
+        /* ── Emoji placeholder ── */
+        <>
+          {[...Array(5)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                width: 20 + i * 12,
+                height: 20 + i * 12,
+                left: `${10 + i * 18}%`,
+                top: `${20 + (i % 2) * 40}%`,
+                background: `radial-gradient(circle, hsla(${memory.hue}, 80%, 70%, 0.15) 0%, transparent 70%)`,
+                filter: 'blur(8px)',
+              }}
+            />
+          ))}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className={`text-${emojiSize} filter drop-shadow-lg opacity-80`}>{memory.emoji}</span>
+          </div>
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.6) 100%)' }}
+          />
+        </>
+      )}
+
+      {/* Hover glow (works on both photo and emoji) */}
+      <motion.div
+        className="absolute inset-0"
+        initial={{ opacity: 0 }}
+        whileHover={{ opacity: 1 }}
+        style={{ background: `radial-gradient(circle at center, ${memory.color}22 0%, transparent 70%)` }}
+      />
+
+      {/* Extra content (e.g. close button slot) */}
+      {children}
+    </div>
+  );
+}
 
 function MemoryCard({ memory, onClick, index }) {
   return (
@@ -24,7 +100,6 @@ function MemoryCard({ memory, onClick, index }) {
       onClick={() => onClick(memory)}
       className="cursor-pointer relative group"
     >
-      {/* Film border */}
       <div
         className="rounded-lg overflow-hidden"
         style={{
@@ -40,55 +115,12 @@ function MemoryCard({ memory, onClick, index }) {
           ))}
         </div>
 
-        {/* Photo */}
-        <div
-          className="relative mx-2 overflow-hidden"
-          style={{
-            height: 140,
-            background: `
-              radial-gradient(ellipse 70% 80% at 40% 50%, 
-                hsl(${memory.hue}, 50%, 25%) 0%, 
-                hsl(${memory.hue + 20}, 30%, 12%) 60%,
-                hsl(${memory.hue - 20}, 20%, 8%) 100%)
-            `,
-          }}
-        >
-          {/* Bokeh effect */}
-          {[...Array(5)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                width: 20 + i * 12,
-                height: 20 + i * 12,
-                left: `${10 + i * 18}%`,
-                top: `${20 + (i % 2) * 40}%`,
-                background: `radial-gradient(circle, hsla(${memory.hue}, 80%, 70%, 0.15) 0%, transparent 70%)`,
-                filter: 'blur(8px)',
-              }}
-            />
-          ))}
-          {/* Big emoji */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-5xl filter drop-shadow-lg opacity-80">{memory.emoji}</span>
-          </div>
-          {/* Cinematic overlay */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.6) 100%)',
-            }}
-          />
-          {/* Hover glow */}
-          <motion.div
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            whileHover={{ opacity: 1 }}
-            style={{ background: `radial-gradient(circle at center, ${memory.color}22 0%, transparent 70%)` }}
-          />
+        {/* Thumbnail photo */}
+        <div className="mx-2">
+          <PhotoArea memory={memory} height={140} emojiSize="5xl" />
         </div>
 
-        {/* Film holes bottom */}
+        {/* Film strip holes bottom */}
         <div className="flex gap-2 px-2 py-1.5 justify-between">
           {[...Array(6)].map((_, i) => (
             <div key={i} className="w-2 h-2 rounded-sm" style={{ background: 'rgba(255,183,197,0.12)' }} />
@@ -131,34 +163,14 @@ function LightboxModal({ memory, onClose }) {
             boxShadow: `0 40px 80px rgba(0,0,0,0.6), 0 0 40px ${memory.color}33`,
           }}
         >
-          {/* Large photo */}
-          <div
-            className="relative"
-            style={{
-              height: 280,
-              background: `radial-gradient(ellipse 70% 80% at 40% 50%, 
-                hsl(${memory.hue}, 50%, 25%) 0%, 
-                hsl(${memory.hue + 20}, 30%, 12%) 70%,
-                hsl(${memory.hue - 20}, 20%, 8%) 100%)`,
-            }}
-          >
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-8xl filter drop-shadow-2xl">{memory.emoji}</span>
-            </div>
-            <div
-              className="absolute inset-0"
-              style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.8) 100%)' }}
-            />
-          </div>
+          {/* Full-size photo */}
+          <PhotoArea memory={memory} height={280} emojiSize="8xl" />
 
           {/* Info */}
           <div className="p-6">
             <h3 className="text-2xl font-serif italic text-white mb-1">{memory.title}</h3>
             <p className="text-white/40 text-sm mb-3" style={{ fontFamily: 'Lato, sans-serif' }}>{memory.date}</p>
-            <p
-              className="text-white/70 text-base italic"
-              style={{ fontFamily: '"Cormorant Garamond", serif' }}
-            >
+            <p className="text-white/70 text-base italic" style={{ fontFamily: '"Cormorant Garamond", serif' }}>
               "{memory.caption}"
             </p>
           </div>
@@ -180,11 +192,8 @@ export default function GalleryPage() {
   const [selected, setSelected] = useState(null);
   const [filter, setFilter] = useState('all');
 
-  const years = ['all', '2022', '2023', '2024'];
-
-  const filtered = filter === 'all'
-    ? MEMORIES
-    : MEMORIES.filter(m => m.date.includes(filter));
+  const years = ['all', '2025', '2026'];
+  const filtered = filter === 'all' ? MEMORIES : MEMORIES.filter(m => m.date.includes(filter));
 
   return (
     <PageLayout title="Our Gallery" subtitle="Every frame holds forever">
@@ -208,27 +217,17 @@ export default function GalleryPage() {
       </div>
 
       {/* Gallery grid */}
-      <motion.div
-        className="grid grid-cols-2 sm:grid-cols-3 gap-4"
-        layout
-      >
+      <motion.div className="grid grid-cols-2 sm:grid-cols-3 gap-4" layout>
         <AnimatePresence>
           {filtered.map((memory, i) => (
-            <MemoryCard
-              key={memory.id}
-              memory={memory}
-              index={i}
-              onClick={setSelected}
-            />
+            <MemoryCard key={memory.id} memory={memory} index={i} onClick={setSelected} />
           ))}
         </AnimatePresence>
       </motion.div>
 
       {/* Lightbox */}
       <AnimatePresence>
-        {selected && (
-          <LightboxModal memory={selected} onClose={() => setSelected(null)} />
-        )}
+        {selected && <LightboxModal memory={selected} onClose={() => setSelected(null)} />}
       </AnimatePresence>
     </PageLayout>
   );

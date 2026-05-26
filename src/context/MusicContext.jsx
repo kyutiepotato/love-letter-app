@@ -5,12 +5,11 @@ const MusicContext = createContext(null);
 const PLAYLIST = [
   {
     id: 1,
-    title: "A Thousand Years",
-    artist: "Christina Perri",
+    title: "Ginintuang Tanawin",
+    artist: "Wilbert Ross",
     duration: "4:45",
     color: "#ffb7c5",
-    // Using a royalty-free ambient track via tone generation (we'll generate with Web Audio)
-    src: null,
+    src: "/src/assets/music/ginintuang-tanawin-official-music-video.mp3",
   },
   {
     id: 2,
@@ -18,7 +17,7 @@ const PLAYLIST = [
     artist: "John Legend",
     duration: "4:29",
     color: "#fda4af",
-    src: null,
+    src: null, // add src path when you have the file
   },
   {
     id: 3,
@@ -44,81 +43,75 @@ export function MusicProvider({ children }) {
   const [progress, setProgress] = useState(0);
   const [volume, setVolume] = useState(0.6);
   const [showMiniPlayer, setShowMiniPlayer] = useState(true);
-  const audioCtxRef = useRef(null);
-  const gainNodeRef = useRef(null);
-  const oscillatorsRef = useRef([]);
-  const intervalRef = useRef(null);
-  const progressRef = useRef(0);
 
-  // Generate ambient romantic tone using Web Audio API
-  const startAmbientMusic = useCallback(() => {
-    if (!audioCtxRef.current) {
-      audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
-      gainNodeRef.current = audioCtxRef.current.createGain();
-      gainNodeRef.current.connect(audioCtxRef.current.destination);
+  const audioRef = useRef(null); // the real <audio> element
+
+  const currentTrack = PLAYLIST[currentIdx];
+
+  // --- Helpers ---
+
+  const getAudio = useCallback(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio();
+      audioRef.current.volume = volume;
+
+      // Update progress bar as song plays
+      audioRef.current.addEventListener('timeupdate', () => {
+        const a = audioRef.current;
+        if (a && a.duration) {
+          setProgress((a.currentTime / a.duration) * 100);
+        }
+      });
+
+      // Auto-advance to next track when song ends
+      audioRef.current.addEventListener('ended', () => {
+        setCurrentIdx(i => (i + 1) % PLAYLIST.length);
+      });
     }
-    const ctx = audioCtxRef.current;
-    if (ctx.state === 'suspended') ctx.resume();
-    gainNodeRef.current.gain.setTargetAtTime(volume * 0.15, ctx.currentTime, 0.3);
-
-    // Stop existing
-    oscillatorsRef.current.forEach(o => { try { o.stop(); } catch {} });
-    oscillatorsRef.current = [];
-
-    // Romantic chord: F major-ish ambient
-    const baseFreqs = [174.6, 220, 261.6, 329.6, 392];
-    baseFreqs.forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      const filter = ctx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.value = 800;
-
-      osc.type = i % 2 === 0 ? 'sine' : 'triangle';
-      osc.frequency.value = freq;
-
-      // Slow gentle vibrato
-      const lfo = ctx.createOscillator();
-      const lfoGain = ctx.createGain();
-      lfo.frequency.value = 0.1 + i * 0.05;
-      lfoGain.gain.value = 1.5;
-      lfo.connect(lfoGain);
-      lfoGain.connect(osc.frequency);
-      lfo.start();
-
-      gain.gain.value = 0.03 / (i + 1);
-      osc.connect(filter);
-      filter.connect(gain);
-      gain.connect(gainNodeRef.current);
-      osc.start();
-      oscillatorsRef.current.push(osc, lfo);
-    });
+    return audioRef.current;
   }, [volume]);
 
-  const stopAmbientMusic = useCallback(() => {
-    if (gainNodeRef.current && audioCtxRef.current) {
-      gainNodeRef.current.gain.setTargetAtTime(0, audioCtxRef.current.currentTime, 0.5);
-      setTimeout(() => {
-        oscillatorsRef.current.forEach(o => { try { o.stop(); } catch {} });
-        oscillatorsRef.current = [];
-      }, 600);
+  // Load a new track whenever currentIdx changes
+  useEffect(() => {
+    const audio = getAudio();
+    const track = PLAYLIST[currentIdx];
+
+    if (track.src) {
+      audio.src = track.src;
+      audio.load();
+      setProgress(0);
+      if (isPlaying) {
+        audio.play().catch(err => console.warn('Playback error:', err));
+      }
+    } else {
+      // No audio file — just reset progress
+      audio.src = '';
+      setProgress(0);
     }
-  }, []);
+  }, [currentIdx]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Sync volume whenever it changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
+  }, [volume]);
+
+  // --- Controls ---
 
   const play = useCallback(() => {
-    startAmbientMusic();
+    const audio = getAudio();
+    const track = PLAYLIST[currentIdx];
+    if (track.src) {
+      audio.play().catch(err => console.warn('Playback error:', err));
+    }
     setIsPlaying(true);
-    intervalRef.current = setInterval(() => {
-      progressRef.current = (progressRef.current + 0.1) % 100;
-      setProgress(progressRef.current);
-    }, 270);
-  }, [startAmbientMusic]);
+  }, [currentIdx, getAudio]);
 
   const pause = useCallback(() => {
-    stopAmbientMusic();
+    if (audioRef.current) audioRef.current.pause();
     setIsPlaying(false);
-    clearInterval(intervalRef.current);
-  }, [stopAmbientMusic]);
+  }, []);
 
   const toggle = useCallback(() => {
     if (isPlaying) pause();
@@ -126,33 +119,40 @@ export function MusicProvider({ children }) {
   }, [isPlaying, play, pause]);
 
   const next = useCallback(() => {
-    setCurrentIdx(i => (i + 1) % PLAYLIST.length);
-    progressRef.current = 0;
+    if (audioRef.current) audioRef.current.pause();
+    setIsPlaying(false);
     setProgress(0);
-    if (isPlaying) { stopAmbientMusic(); setTimeout(startAmbientMusic, 100); }
-  }, [isPlaying, stopAmbientMusic, startAmbientMusic]);
+    setCurrentIdx(i => (i + 1) % PLAYLIST.length);
+    // isPlaying will resume in the useEffect above after src loads
+    setIsPlaying(true);
+  }, []);
 
   const prev = useCallback(() => {
-    setCurrentIdx(i => (i - 1 + PLAYLIST.length) % PLAYLIST.length);
-    progressRef.current = 0;
+    if (audioRef.current) audioRef.current.pause();
+    setIsPlaying(false);
     setProgress(0);
-    if (isPlaying) { stopAmbientMusic(); setTimeout(startAmbientMusic, 100); }
-  }, [isPlaying, stopAmbientMusic, startAmbientMusic]);
+    setCurrentIdx(i => (i - 1 + PLAYLIST.length) % PLAYLIST.length);
+    setIsPlaying(true);
+  }, []);
 
-  useEffect(() => {
-    if (gainNodeRef.current && audioCtxRef.current) {
-      gainNodeRef.current.gain.setTargetAtTime(volume * 0.15, audioCtxRef.current.currentTime, 0.1);
+  // Seek: call this with a 0–100 value
+  const seek = useCallback((pct) => {
+    const audio = audioRef.current;
+    if (audio && audio.duration) {
+      audio.currentTime = (pct / 100) * audio.duration;
+      setProgress(pct);
     }
-  }, [volume]);
+  }, []);
 
   return (
     <MusicContext.Provider value={{
       isPlaying, toggle, play, pause, next, prev,
       currentIdx, setCurrentIdx,
       progress, setProgress,
+      seek,
       volume, setVolume,
       playlist: PLAYLIST,
-      currentTrack: PLAYLIST[currentIdx],
+      currentTrack,
       showMiniPlayer, setShowMiniPlayer,
     }}>
       {children}
