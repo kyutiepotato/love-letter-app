@@ -17,15 +17,15 @@ const PLAYLIST = [
     artist: "Amiel Sol",
     duration: "4:29",
     color: "#fda4af",
-    src: "/src/assets/music/Nahanap Kita - Amiel Sol (Official Music Video).mp3", // add src path when you have the file
+    src: "/src/assets/music/Nahanap Kita - Amiel Sol (Official Music Video).mp3", 
   },
   {
     id: 3,
-    title: "Perfect",
-    artist: "Ed Sheeran",
+    title: "You",
+    artist: "Lany",
     duration: "4:23",
     color: "#ffc8d9",
-    src: null,
+    src: "/src/assets/music/LANY - you! (Lyrics).mp3",
   },
   {
     id: 4,
