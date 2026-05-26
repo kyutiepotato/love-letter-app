@@ -35,6 +35,22 @@ const PLAYLIST = [
     color: "#ffe0e9",
     src: "/src/assets/music/your-universe-acoustic.mp3",
   },
+  {
+    id: 4,
+    title: "Balisong",
+    artist: "Rico Blanco (Acoustic)",
+    duration: "3:01",
+    color: "#ffe0e9",
+    src: null,
+  },
+  {
+    id: 4,
+    title: "Your Universe",
+    artist: "Bradley",
+    duration: "3:01",
+    color: "#ffe0e9",
+    src: "/src/assets/music/PERFECT FOR ME - BRADLEY MARSHALL (LYRIC VIDEO).mp3",
+  },
 ];
 
 export function MusicProvider({ children }) {
