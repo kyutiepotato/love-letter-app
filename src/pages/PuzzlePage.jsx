@@ -77,6 +77,7 @@ function PuzzlePiece({ piece, grid, size, onDragStart, isDragging }) {
     <motion.div
       draggable
       onDragStart={() => onDragStart(piece)}
+      onTouchStart={() => onDragStart(piece)}
       className="puzzle-piece rounded-sm overflow-hidden select-none"
       style={{
         width: size,
@@ -86,6 +87,7 @@ function PuzzlePiece({ piece, grid, size, onDragStart, isDragging }) {
         border: '1px solid rgba(255,183,197,0.25)',
         boxShadow: isDragging ? '0 20px 40px rgba(0,0,0,0.5)' : '0 4px 12px rgba(0,0,0,0.4)',
         position: 'relative',
+        touchAction: 'none',
       }}
       whileHover={{ scale: 1.05, zIndex: 10 }}
       whileDrag={{ scale: 1.1, zIndex: 100 }}
@@ -99,10 +101,12 @@ function DropSlot({ slotIndex, occupant, grid, pieceSize, onDrop, isCorrect }) {
   return (
     <div
       className="relative"
+      data-slot={slotIndex}
       style={{ width: pieceSize, height: pieceSize }}
       onDragOver={e => { e.preventDefault(); setIsOver(true); }}
       onDragLeave={() => setIsOver(false)}
       onDrop={e => { e.preventDefault(); setIsOver(false); onDrop(slotIndex); }}
+      onTouchEnd={e => { e.preventDefault(); setIsOver(false); onDrop(slotIndex); }}
     >
       {/* Slot background */}
       <div
@@ -156,9 +160,11 @@ export default function PuzzlePage() {
   const [dragging, setDragging] = useState(null);
   const [completed, setCompleted] = useState(false);
   const [message, setMessage] = useState('');
+  const draggingRef = useRef(null);
 
   const grid = difficulty !== null ? DIFFICULTIES[difficulty].grid : 3;
   const pieceSize = Math.min(Math.floor(Math.min(300, window.innerWidth - 80) / grid), 90);
+  const slotsRef = useRef([]);
 
   const startGame = (diffIdx) => {
     setDifficulty(diffIdx);
@@ -171,7 +177,28 @@ export default function PuzzlePage() {
     setDragging(null);
   };
 
-  const handleDragStart = (piece) => setDragging(piece);
+  const handleDragStart = (piece) => {
+    setDragging(piece);
+    draggingRef.current = piece;
+};
+
+  //touch end
+  const handleTouchEnd = useCallback((e) => {
+    if (!draggingRef.current) return;
+    const touch = e.changedTouches[0];
+    const el = document.elementFromPoint(touch.clientX, touch.clientY);
+    const slotEl = el?.closest('[data-slot]');
+    if (slotEl) {
+      const slotIndex = parseInt(slotEl.dataset.slot);
+      handleDrop(slotIndex);
+    }
+    draggingRef.current = null;
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('touchend', handleTouchEnd);
+    return () => window.removeEventListener('touchend', handleTouchEnd);
+  }, [handleTouchEnd]);
 
   const handleDrop = (slotIndex) => {
     if (!dragging) return;

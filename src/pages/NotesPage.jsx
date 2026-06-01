@@ -23,7 +23,7 @@ const LETTERS = [
     color: "#ff6b99",
     content: `My dearest,
 
-I still remember the exact moment I knew — you were laughing at something completely silly, and the whole world seemed to pause. The light caught your eyes in that perfect way, and I thought: *this is it. This is the person.*
+I still remember the exact moment when I first saw you — you were talking to my friend Joy Lyn and laughing at something completely silly, and the whole world seemed to pause. The light caught your eyes in that perfect way, and I thought: *this is it. This is the person.*
 
 People say love is complicated, but with you, it was the simplest thing I've ever felt. Like breathing. Like coming home after a very long journey.
 
@@ -44,7 +44,7 @@ Yours ✦`,
 
 A list that could fill a thousand pages, but I'll start somewhere:
 
-The way you laugh with your whole heart, not just your face. The warmth of your hand in the cold. How you remember small things I said months ago. Your voice in the morning, still half-asleep. The way you look at me like I'm something worth keeping.
+The way you laugh with your whole heart, not just your face. The warmth of your hand in the cold. How you remember small things I said months ago. The way you look at me like I'm something worth keeping.
 
 The patience you have that I'm still learning. How you make ordinary days feel like celebrations. Your stubborn kindness even when the world is difficult.
 

@@ -89,7 +89,7 @@ const ICONS = {
 const CHALLENGES = [
   {
     id: 1,
-    question: "What is our anniversary date?",
+    question: "What is our meeting date?",
     answer: "January 12",
     hint: "The day everything changed 💕",
     reward: "🌹",
@@ -100,7 +100,7 @@ const CHALLENGES = [
   {
     id: 2,
     question: "What was our first movie together?",
-    answer: "a walk to remember",
+    answer: "Kimitsu no Yaiba: Mugen Train",
     hint: "A classic love story, just like ours",
     reward: "🎬",
     rewardMessage: "We cried together and I pretended not to. I hope you know I cried.",
