@@ -18,7 +18,7 @@ const LETTERS = [
   {
     id: 1,
     title: "The Day I Knew",
-    date: "August 25, 2025",
+    date: "August 14, 2025",
     preview: "I still remember the exact moment...",
     color: "#ff6b99",
     content: `My dearest,
@@ -37,7 +37,7 @@ Yours ✦`,
   {
     id: 2,
     title: "What I Love About You",
-    date: "August 30, 2025",
+    date: "August 20, 2025",
     preview: "A list that could fill a thousand pages...",
     color: "#f9a8c9",
     content: `My love,

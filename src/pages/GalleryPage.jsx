@@ -15,10 +15,10 @@ const MEMORIES = [
   { id: 4, title: "New Year's Date",        date: "Jul 4, 2025",  caption: "You named a star after us",        emoji: "⭐", color: "#818cf8", hue: 240, image: '/src/assets/gallery/photo5.jpg' },
   { id: 5, title: "Birthday Celebration",        date: "Aug 15, 2025", caption: "We got soaked and didn't care",    emoji: "🌧️", color: "#60a5fa", hue: 210, image: '/src/assets/gallery/photo6.jpg' },
   { id: 6, title: "Fun Moments", date: "Feb 14, 2025", caption: "A whole year of loving you",       emoji: "💕", color: "#f43f5e", hue: 350, image: '/src/assets/gallery/photo7.jpg' },
-  { id: 7, title: "Road Trip",         date: "Jun 10, 2025", caption: "Just us and the open road",        emoji: "🚗", color: "#34d399", hue: 160, image: '/src/assets/gallery/photo9.jpg' },
-  { id: 8, title: "Rain Date",       date: "Dec 25, 2025", caption: "Your hand warm in the cold",       emoji: "❄️", color: "#93c5fd", hue: 210, image: '/src/assets/gallery/photo8.jpg' },
-  { id: 9, title: "Home",              date: "Mar 1, 2026",  caption: "Wherever you are is home",         emoji: "🏠", color: "#fda4af", hue: 350, image: '/src/assets/gallery/photo10.jpg' },
-  { id: 10, title: "Hubbies",             date: "Mar 1, 2026",  caption: "Wherever you are is home",         emoji: "🏠", color: "#fda4af", hue: 350, image: '/src/assets/gallery/photo11.jpg' },
+  { id: 7, title: "Road Trip",         date: "Jun 10, 2025", caption: "Just us and the open road",        emoji: "🚗", color: "#34d399", hue: 160, image: '/src/assets/gallery/25.jpg' },
+  { id: 8, title: "Rain Date",       date: "Dec 25, 2025", caption: "Your hand warm in the cold",       emoji: "❄️", color: "#93c5fd", hue: 210, image: '/src/assets/gallery/27.jpg' },
+  { id: 9, title: "Home",              date: "Mar 1, 2026",  caption: "Wherever you are is home",         emoji: "🏠", color: "#fda4af", hue: 350, image: '/src/assets/gallery/23.jpg' },
+  { id: 10, title: "Hubbies",             date: "Mar 1, 2026",  caption: "Wherever you are is home",         emoji: "🏠", color: "#fda4af", hue: 350, image: '/src/assets/gallery/22.jpg' },
 ];
 
 // Reusable photo area used in both the card thumbnail and the lightbox
