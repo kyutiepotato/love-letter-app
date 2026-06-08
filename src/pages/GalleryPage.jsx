@@ -9,16 +9,18 @@ import PageLayout from '../components/PageLayout';
 // ─────────────────────────────────────────────────────────────────────────────
 
 const MEMORIES = [
-  { id: 1, title: "Special Moment",        date: "Feb 14, 2025", caption: "The night everything changed",    emoji: "🌹", color: "#ff6b99", hue: 340, image: '/src/assets/gallery/photo1.jpg'  },
-  { id: 2, title: "Beach Sunset",      date: "Apr 3, 2025",  caption: "Salt air and your laughter",      emoji: "🌅", color: "#f97316", hue: 20,  image: '/src/assets/gallery/photo3.jpg' },
-  { id: 3, title: "Eat All you Can",    date: "May 20, 2025", caption: "Our lazy Sunday ritual",           emoji: "☕", color: "#fbbf24", hue: 45,  image: '/src/assets/gallery/photo4.jpg' },
-  { id: 4, title: "New Year's Date",        date: "Jul 4, 2025",  caption: "You named a star after us",        emoji: "⭐", color: "#818cf8", hue: 240, image: '/src/assets/gallery/photo5.jpg' },
-  { id: 5, title: "Birthday Celebration",        date: "Aug 15, 2025", caption: "We got soaked and didn't care",    emoji: "🌧️", color: "#60a5fa", hue: 210, image: '/src/assets/gallery/photo6.jpg' },
-  { id: 6, title: "Fun Moments", date: "Feb 14, 2025", caption: "A whole year of loving you",       emoji: "💕", color: "#f43f5e", hue: 350, image: '/src/assets/gallery/photo7.jpg' },
-  { id: 7, title: "Road Trip",         date: "Jun 10, 2025", caption: "Just us and the open road",        emoji: "🚗", color: "#34d399", hue: 160, image: '/src/assets/gallery/25.jpg' },
-  { id: 8, title: "Rain Date",       date: "Dec 25, 2025", caption: "Your hand warm in the cold",       emoji: "❄️", color: "#93c5fd", hue: 210, image: '/src/assets/gallery/27.jpg' },
-  { id: 9, title: "Home",              date: "Mar 1, 2026",  caption: "Wherever you are is home",         emoji: "🏠", color: "#fda4af", hue: 350, image: '/src/assets/gallery/23.jpg' },
-  { id: 10, title: "Hubbies",             date: "Mar 1, 2026",  caption: "Wherever you are is home",         emoji: "🏠", color: "#fda4af", hue: 350, image: '/src/assets/gallery/22.jpg' },
+  { id: 1, title: "Special Moment",        date: "Nov 23, 2025", caption: "The night everything changed",    emoji: "🌹", color: "#ff6b99", hue: 340, image: '/src/assets/gallery/photo1.jpg'  },
+  { id: 2, title: "Beach Sunset",      date: "Apr 12, 2026",  caption: "Salt air and your laughter",      emoji: "🌅", color: "#f97316", hue: 20,  image: '/src/assets/gallery/photo3.jpg' },
+  { id: 3, title: "Kyut Girl",    date: "Feb 7, 2026", caption: "Our lazy date ritual",           emoji: "☕", color: "#fbbf24", hue: 45,  image: '/src/assets/gallery/photo4.jpg' },
+  { id: 4, title: "New Year's Date",        date: "Jan 1, 2026",  caption: "New year's date on Eco trail",        emoji: "⭐", color: "#818cf8", hue: 240, image: '/src/assets/gallery/photo5.jpg' },
+  { id: 5, title: "Birthday Celebration",        date: "May 3, 2026", caption: "We got soaked and didn't care",    emoji: "🌧️", color: "#60a5fa", hue: 210, image: '/src/assets/gallery/photo6.jpg' },
+  { id: 6, title: "Fun Moments", date: "Feb 7, 2026", caption: "Moment's with you",       emoji: "💕", color: "#f43f5e", hue: 350, image: '/src/assets/gallery/photo7.jpg' },
+  { id: 7, title: "At Mall",         date: "Jun 3, 2026", caption: "Just us and the open road",        emoji: "🚗", color: "#34d399", hue: 160, image: '/src/assets/gallery/25.jpg' },
+  { id: 8, title: "7/11 date",       date: "May 28, 2026", caption: "Your hand warm in the cold",       emoji: "❄️", color: "#93c5fd", hue: 210, image: '/src/assets/gallery/27.jpg' },
+  { id: 9, title: "Home",              date: "June 3, 2026",  caption: "Wherever you are is home",         emoji: "🏠", color: "#fda4af", hue: 350, image: '/src/assets/gallery/23.jpg' },
+  { id: 10, title: "The Champorado",             date: "May 28, 2026",  caption: "Fun to do is",         emoji: "🏠", color: "#fda4af", hue: 350, image: '/src/assets/gallery/22.jpg' },
+  { id: 11, title: "Night Walk(PR)",             date: "May 28, 2026",  caption: "Night's don't matter",         emoji: "🏠", color: "#fda4af", hue: 350, image: '/src/assets/gallery/26.jpg' },
+  { id: 12, title: "Tired of walking",             date: "June 3, 2026",  caption: "Tired but we're Happy ",         emoji: "🏠", color: "#fda4af", hue: 350, image: '/src/assets/gallery/24.jpg' },
 ];
 
 // Reusable photo area used in both the card thumbnail and the lightbox
