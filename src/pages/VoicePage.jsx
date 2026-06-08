@@ -120,7 +120,7 @@ const CHALLENGES = [
   {
     id: 4,
     question: "Where did we have our first kiss?",
-    answer: "Larana",
+    answer: "Terminal",
     hint: "A place we went together",
     reward: "💋",
     rewardMessage: "I still get butterflies thinking about that moment.",
