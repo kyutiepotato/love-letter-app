@@ -31,7 +31,7 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <MusicProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/love-letter-app">
         <CinematicBackground />
         <AmbientParticles />
         <SakuraPetals />

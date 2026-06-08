@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
-
 // Replace this with your image path, e.g. '/src/assets/your-photo.jpg'
-const BG_IMAGE = '/src/assets/bg.png';
+const BG_IMAGE = '/assets/bg.png';
 
 export default function CinematicBackground({ intensity = 0.85 }) {
   return (
