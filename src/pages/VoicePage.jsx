@@ -100,7 +100,7 @@ const CHALLENGES = [
   {
     id: 2,
     question: "What was our first movie together?",
-    answer: "Kimitsu no Yaiba: Mugen Train",
+    answer: "Demon Slayer: Kimitsu no Yaiba: Mugen Train",
     hint: "A cartoon about demons, but the movie made us cry like babies",
     reward: "🎬",
     rewardMessage: "You remembered! the day you were looking at me while I was sitting because I was in toothache and you were worried and I was too bored while waiting.",
@@ -110,7 +110,7 @@ const CHALLENGES = [
   {
     id: 3,
     question: "What did I call you on our first date?",
-    answer: "ssob",
+    answer: "Boss : Ssob",
     hint: "A cute nickname that stuck around",
     reward: "☀️",
     rewardMessage: "You still are. My ssob, my honey, my sunshine.",

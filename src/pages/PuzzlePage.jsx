@@ -26,7 +26,7 @@ const ICONS = {
 };
 
 // ── SET YOUR PUZZLE PHOTO HERE ──────────────────────────────────────────────
-const PUZZLE_IMAGE = '/src/assets/photo2.jpg'; // ← change to your image path
+const PUZZLE_IMAGE = '/love-letter-app/assets/photo2.jpg'; // ← change to your image path
 // ────────────────────────────────────────────────────────────────────────────
 
 const DIFFICULTIES = [

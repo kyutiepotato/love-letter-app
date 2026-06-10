@@ -9,7 +9,7 @@ const PLAYLIST = [
     artist: "Wilbert Ross",
     duration: "4:45",
     color: "#ffb7c5",
-    src: "/assets/music/ginintuang-tanawin-official-music-video.mp3",
+    src: "/love-letter-app/assets/music/ginintuang-tanawin-official-music-video.mp3",
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ const PLAYLIST = [
     artist: "Amiel Sol",
     duration: "4:29",
     color: "#fda4af",
-    src: "/assets/music/Nahanap Kita - Amiel Sol (Official Music Video).mp3", 
+    src: "/love-letter-app/assets/music/Nahanap Kita - Amiel Sol (Official Music Video).mp3", 
   },
   {
     id: 3,
@@ -25,7 +25,7 @@ const PLAYLIST = [
     artist: "Lany",
     duration: "4:23",
     color: "#ffc8d9",
-    src: "/assets/music/LANY - you! (Lyrics).mp3",
+    src: "/love-letter-app/assets/music/LANY - you! (Lyrics).mp3",
   },
   {
     id: 4,
@@ -33,7 +33,7 @@ const PLAYLIST = [
     artist: "Rico Blanco (Acoustic)",
     duration: "3:01",
     color: "#ffe0e9",
-    src: "/assets/music/your-universe-acoustic.mp3",
+    src: "/love-letter-app/assets/music/your-universe-acoustic.mp3",
   },
   {
     id: 5,
@@ -41,7 +41,7 @@ const PLAYLIST = [
     artist: "Rivermaya",
     duration: "3:01",
     color: "#ffe0e9",
-    src: "/assets/music/Balisong by Rivermaya (Official Lyric Video).mp3",
+    src: "/love-letter-app/assets/music/Balisong by Rivermaya (Official Lyric Video).mp3",
   },
   {
     id: 6,
@@ -49,7 +49,7 @@ const PLAYLIST = [
     artist: "Bradley",
     duration: "3:01",
     color: "#ffe0e9",
-    src: "/assets/music/PERFECT FOR ME - BRADLEY MARSHALL (LYRIC VIDEO).mp3",
+    src: "/love-letter-app/assets/music/PERFECT FOR ME - BRADLEY MARSHALL (LYRIC VIDEO).mp3",
   },
 ];
 
